@@ -16,10 +16,6 @@
  */
 #include QMK_KEYBOARD_H
 
-//handedness
-#undef MASTER_RIGHT
-#define SPLIT_HAND_PIN GP29
-
 //when tapped produces meta, otherwise acts as dead key for num/nav layer (L2)
 #define L2_META_DEAD LT(LAYER_NUM_NAV, KC_LEFT_GUI)
 
@@ -55,7 +51,7 @@ enum dilemma_keymap_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_BASE] = LAYOUT_LAYER_BASE,
   [LAYER_NUM_NAV] = LAYOUT_NUM_NAV,
-  [LAYER_SYMBOLS] = LAYOUT_SYM_MISC,
+  [LAYER_SYM_MISC] = LAYOUT_SYM_MISC,
 };
 
 // adds combos for backspace (; + ,) and for enter (q + ')

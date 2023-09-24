@@ -62,8 +62,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM backspace_combo[] = {KC_M, KC_O, COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {KC_Q, KC_QUOT, COMBO_END};
 
+
 /*
- * adds combos that mimic the shifted value for the punctuation on the base layer.
+const uint16_t PROGMEM colon_combo[] = {KC_LCTL, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM doublequote_combo[] = {KC_LCTL, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM RANGLE_BRACKET_combo[] = {KC_LCTL, KC_COMM, COMBO_END};
+const uint16_t PROGMEM LANGLE_BRACKET_combo[] = {KC_LCTL, KC_DOT, COMBO_END};
+*/
+
+combo_t key_combos[] = {
+    COMBO(backspace_combo, KC_BSPC),
+    COMBO(enter_combo, KC_ENT),
+    //COMBO(colon_combo, KC_COLN),
+    //COMBO(doublequote_combo, KC_DQUO),
+    //COMBO(RANGLE_BRACKET_combo, KC_RABK),
+    //COMBO(LANGLE_BRACKET_combo, KC_LABK),
+};
+
+/*
+ * adds overrides that mimic the shifted value for the punctuation on the base layer.
  *
  * Ctrl + ; = :
  * Ctrl + ' = "
@@ -71,17 +88,15 @@ const uint16_t PROGMEM enter_combo[] = {KC_Q, KC_QUOT, COMBO_END};
  * Ctrl + , = >
  */
 
-const uint16_t PROGMEM colon_combo[] = {KC_LCTL, KC_SCLN, COMBO_END};
-const uint16_t PROGMEM doublequote_combo[] = {KC_LCTL, KC_QUOT, COMBO_END};
-const uint16_t PROGMEM RANGLE_BRACKET_combo[] = {KC_LCTL, KC_COMM, COMBO_END};
-const uint16_t PROGMEM LANGLE_BRACKET_combo[] = {KC_LCTL, KC_DOT, COMBO_END};
+const key_override_t ctrl_semicolon_override = ko_make_basic(MOD_MASK_CTRL, KC_SCLN, KC_COLN);
+const key_override_t ctrl_quote_override = ko_make_basic(MOD_MASK_CTRL, KC_QUOT, KC_DQUO);
+const key_override_t ctrl_comma_override = ko_make_basic(MOD_MASK_CTRL, KC_COMM, KC_RABK);
+const key_override_t ctrl_period_override = ko_make_basic(MOD_MASK_CTRL, KC_DOT, KC_LABK);
 
-
-combo_t key_combos[] = {
-    COMBO(backspace_combo, KC_BSPC),
-    COMBO(enter_combo, KC_ENT),
-    COMBO(colon_combo, KC_COLN),
-    COMBO(doublequote_combo, KC_DQUO),
-    COMBO(RANGLE_BRACKET_combo, KC_RABK),
-    COMBO(LANGLE_BRACKET_combo, KC_LABK),
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &ctrl_semicolon_override,
+    &ctrl_quote_override,
+    &ctrl_comma_override,
+    &ctrl_period_override,
+    NULL
 };

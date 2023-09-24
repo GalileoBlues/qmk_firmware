@@ -16,13 +16,11 @@
  */
 #include QMK_KEYBOARD_H
 
-//when tapped produces meta, otherwise acts as dead key for num/nav layer (L2)
+// when tapped produces meta, otherwise acts as dead key for num/nav layer (L2)
 #define L2_META_DEAD LT(LAYER_NUM_NAV, KC_LEFT_GUI)
 
-//when tapped produces capslock, otherwise acts as dead key for sym/misc layer (L3)
+// when tapped produces capslock, otherwise acts as dead key for sym/misc layer (L3)
 #define L3_CAPS_DEAD LT(LAYER_SYM_MISC, KC_CAPS)
-
-#define SHFT_CTRL MT(MOD_LSFT, KC_LCTL)
 
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
@@ -36,19 +34,19 @@ enum dilemma_keymap_layers {
        KC_F,    KC_R,    KC_D,    KC_P,    KC_V,            KC_J,    KC_M,    KC_U,     KC_O,    KC_Y, \
        KC_S,    KC_N,    KC_T,    KC_C,    KC_B,            KC_DOT,  KC_H,    KC_E,     KC_A,    KC_I, \
        KC_Z,    KC_X,    KC_K,    KC_G,    KC_W,            KC_Q,    KC_L,    KC_SCLN,  KC_QUOT, KC_COMM, \
-                           L2_META_DEAD, KC_LCTL,        KC_SPC, L3_CAPS_DEAD
+                           L2_META_DEAD, KC_LCTL,           KC_SPC, L3_CAPS_DEAD
 
 #define LAYOUT_NUM_NAV                                                                      \
-       KC_ESC,  KC_1,        KC_2,      KC_3,    KC_4,                KC_7,    KC_8,    KC_9,    KC_0,    KC_ENT, \
-       KC_TAB,  KC_COPY,     KC_PSTE,   KC_LALT, KC_5,                KC_6,    KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, \
-       KC_LEFT_GUI, LALT(KC_F3), LCA(KC_T), KC_PSCR, LCTL(KC_S),      KC_NO, KC_MPLY, KC_MPRV, KC_MNXT, KC_DEL, \
-                           L2_META_DEAD, SHFT_CTRL,                  KC_SPC, L3_CAPS_DEAD
+       KC_ESC,  KC_1,      KC_2,      KC_3,    KC_4,         KC_7,    KC_8,    KC_9,    KC_0,    KC_ENT, \
+       KC_TAB,  KC_COPY,   KC_PSTE,   KC_LALT, KC_5,         KC_6,    KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, \
+       KC_NO, LALT(KC_F3), LCA(KC_T), KC_PSCR, KC_NO,        KC_NO, KC_MPLY, KC_MPRV, KC_MNXT, KC_DEL, \
+                               L2_META_DEAD, KC_LSFT,        KC_SPC, L3_CAPS_DEAD
 
 #define LAYOUT_SYM_MISC                                                                             \
-       KC_F1, KC_F2,  KC_F3,  KC_F4,  KC_QUES,            KC_DLR, KC_LPRN, KC_RPRN, KC_LCBR, KC_RCBR, \
+       KC_F1, KC_F2,  KC_F3,  KC_F4,  KC_QUES,            KC_DLR, KC_LPRN, KC_LBRC, KC_RBRC, KC_RPRN, \
        KC_F5, KC_F6,  KC_F7,  KC_F8,  KC_GRV,             KC_EXLM, KC_SLSH, KC_PAST, KC_EQL, KC_MINS, \
-       KC_F9, KC_F10, KC_F11, KC_F12, KC_UNDS,             KC_CIRC, KC_RABK, KC_LABK, KC_AT, KC_PERC, \
-                    L2_META_DEAD, SHFT_CTRL,                   KC_SPC, L3_CAPS_DEAD
+       KC_F9, KC_F10, KC_F11, KC_F12, KC_UNDS,            KC_CIRC, KC_RABK, KC_LABK, KC_AT, KC_PERC, \
+                        L2_META_DEAD, KC_LSFT,            KC_SPC, L3_CAPS_DEAD
 
 
 #define LAYOUT_wrapper(...) LAYOUT_split_3x5_2(__VA_ARGS__)
@@ -60,9 +58,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // adds combos for backspace (; + ,) and for enter (q + ')
+
 const uint16_t PROGMEM backspace_combo[] = {KC_M, KC_O, COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {KC_Q, KC_QUOT, COMBO_END};
+
+/*
+ * adds combos that mimic the shifted value for the punctuation on the base layer.
+ *
+ * Ctrl + ; = :
+ * Ctrl + ' = "
+ * Ctrl + . = <
+ * Ctrl + , = >
+ */
+
+const uint16_t PROGMEM colon_combo[] = {KC_LCTL, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM doublequote_combo[] = {KC_LCTL, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM RANGLE_BRACKET_combo[] = {KC_LCTL, KC_COMM, COMBO_END};
+const uint16_t PROGMEM LANGLE_BRACKET_combo[] = {KC_LCTL, KC_DOT, COMBO_END};
+
+
 combo_t key_combos[] = {
     COMBO(backspace_combo, KC_BSPC),
     COMBO(enter_combo, KC_ENT),
+    COMBO(colon_combo, KC_COLN),
+    COMBO(doublequote_combo, KC_DQUO),
+    COMBO(RANGLE_BRACKET_combo, KC_RABK),
+    COMBO(LANGLE_BRACKET_combo, KC_LABK),
 };
